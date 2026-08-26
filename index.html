@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scarry Death - Glass Theme</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(rgba(5, 15, 30, 0.3), rgba(2, 8, 18, 0.5)), 
+                        url('https://i.ibb.co.com/hRJQ7C4f/9fa8df9f-8eae-4446-b772-cf1acdcdb1af.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 0;
+            display: block;
+            overflow: hidden;
+        }
+
+        .page-section {
+            display: none !important;
+            width: 100%;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            pointer-events: none;
+        }
+        .page-section.active {
+            display: block !important;
+            z-index: 99999 !important;
+            pointer-events: auto;
+        }
+
+        /* Khusus halaman login agar tetap di tengah layar */
+        #login-page.page-section.active {
+            display: flex !important;
+            justify-content: center;
+            align-items: center;
+            pointer-events: auto;
+        }
+
+        /* --- SIDEBAR MENU (DRAWER) --- */
+        .sidebar-menu {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 80%;
+            height: 100%;
+            background: rgba(6, 16, 30, 0.9);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(0, 210, 255, 0.4);
+            z-index: 100;
+            transition: 0.3s ease-in-out;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.7);
+        }
+        .sidebar-menu.open { left: 0; }
+        .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid rgba(0, 210, 255, 0.3); padding-bottom: 12px; }
+        .sidebar-header h3 { color: #00d2ff; font-size: 15px; letter-spacing: 1px; }
+        .sidebar-close { background: transparent; border: none; color: #ff416c; font-size: 18px; cursor: pointer; font-weight: bold; }
+        .sidebar-items { display: flex; flex-direction: column; gap: 12px; }
+        .sidebar-item { background: rgba(10, 30, 55, 0.3); border: 1px solid rgba(0, 210, 255, 0.3); padding: 12px 15px; border-radius: 12px; color: #fff; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .sidebar-item:hover { background: rgba(0, 114, 255, 0.3); border-color: #00d2ff; }
+
+        .glass-card {
+            background: rgba(8, 20, 38, 0.8);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 210, 255, 0.4);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.8);
+            width: 90%;
+            max-width: 420px;
+            position: relative;
+            z-index: 100000;
+        }
+
+        .card-header { text-align: center; margin-bottom: 20px; }
+        .card-header h2 { color: #00d2ff; font-size: 22px; letter-spacing: 2px; text-shadow: 0 0 12px rgba(0, 210, 255, 0.5); }
+        .card-header p { font-size: 12px; color: #8cb8e4; margin-top: 5px; }
+
+        .form-group { margin-bottom: 15px; width: 100%; }
+        .form-group label { display: block; font-size: 12px; color: #a0c4f1; margin-bottom: 6px; font-weight: 600; }
+
+        .glass-input {
+            width: 100% !important;
+            background: rgba(4, 14, 28, 0.3);
+            border: 1px solid rgba(0, 210, 255, 0.4);
+            border-radius: 12px;
+            padding: 14px 16px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            backdrop-filter: blur(10px);
+        }
+        .glass-input:focus {
+            border-color: #00d2ff;
+            box-shadow: 0 0 12px rgba(0, 210, 255, 0.5);
+        }
+
+        /* TOMBOL UTAMA */
+        .glass-btn {
+            width: 100% !important;
+            background: linear-gradient(90deg, rgba(0, 114, 255, 0.35), rgba(0, 210, 255, 0.35));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 210, 255, 0.5);
+            color: white;
+            padding: 16px;
+            border-radius: 14px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 114, 255, 0.2);
+            margin-top: 8px;
+            position: relative;
+            z-index: 100001;
+            pointer-events: auto;
+        }
+        
+        .glass-btn:hover {
+            box-shadow: 0 0 25px rgba(0, 210, 255, 0.8);
+            background: linear-gradient(90deg, rgba(0, 114, 255, 0.6), rgba(0, 210, 255, 0.6));
+        }
+
+        /* --- DASHBOARD FULL LAYAR --- */
+        .dashboard-wrapper {
+            width: 100% !important;
+            height: 100vh !important;
+            background: rgba(6, 16, 30, 0.05) !important;
+            backdrop-filter: blur(3px);
+            padding: 15px;
+            padding-bottom: 140px !important; 
+            overflow-y: auto !important; 
+            position: relative;
+        }
+
+        .dash-tab { display: none; width: 100%; }
+        .dash-tab.active { display: block; }
+
+        .dash-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; width: 100%; }
+        .top-pill { background: rgba(10, 30, 60, 0.3); border: 1px solid rgba(0, 210, 255, 0.4); padding: 8px 22px; border-radius: 20px; color: #00d2ff; font-weight: bold; font-size: 14px; backdrop-filter: blur(10px); }
+        .icon-btn { background: rgba(10, 30, 60, 0.3); border: 1px solid rgba(0, 210, 255, 0.4); width: 42px; height: 42px; border-radius: 12px; display: flex; justify-content: center; align-items: center; color: #00d2ff; cursor: pointer; font-size: 16px; backdrop-filter: blur(10px); }
+
+        /* KOTAK MENU UTAMA */
+        .profile-glass-box, .target-box, .sender-box, .profile-info-box, .select-bug-box, .status-glass-bar {
+            width: 100% !important;
+            max-width: 100% !important;
+            background: rgba(10, 28, 52, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 210, 255, 0.4);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* STATUS SENDER BAR YANG DIPERBAGUS */
+        .enhanced-status-bar {
+            background: linear-gradient(135deg, rgba(10, 35, 65, 0.4), rgba(5, 20, 40, 0.6));
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(0, 255, 136, 0.5);
+            border-radius: 16px;
+            padding: 14px 18px;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.15);
+        }
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .pulse-dot {
+            width: 12px;
+            height: 12px;
+            background-color: #00ff88;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ff88, 0 0 20px #00ff88;
+            animation: pulse-glow 1.5s infinite;
+        }
+        @keyframes pulse-glow {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 15px #00ff88, 0 0 30px #00ff88; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+        .status-title {
+            font-size: 13px;
+            font-weight: bold;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+        .status-sub {
+            font-size: 10px;
+            color: #8cb8e4;
+        }
+        .status-badge {
+            background: rgba(0, 255, 136, 0.15);
+            border: 1px solid rgba(0, 255, 136, 0.4);
+            color: #00ff88;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 5px 12px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,255,136,0.2);
+        }
+
+        /* BANNER VIDEO */
+        .big-banner-card-video {
+            position: relative;
+            width: 100% !important;
+            height: 120px !important;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 210, 255, 0.4);
+            margin-bottom: 14px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .big-banner-card-video video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover !important;
+            z-index: 1;
+        }
+
+        .big-banner-card-video::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 10, 25, 0.25); 
+            z-index: 2;
+        }
+
+        .banner-overlay-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .banner-overlay-content h1 { font-size: 18px; font-weight: 900; letter-spacing: 2px; color: #00d2ff; margin-bottom: 2px; text-shadow: 0 0 10px rgba(0, 210, 255, 0.6); }
+        .banner-overlay-content h4 { font-size: 11px; color: #00d2ff; margin-bottom: 2px; }
+        .banner-overlay-content p { font-size: 10px; color: #8cb8e4; }
+
+        .profile-subtext { font-size: 11px; color: #8cb8e4; margin-bottom: 4px; }
+        .profile-main-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+        
+        .shield-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 114, 255, 0.15);
+            border: 1px solid rgba(0, 210, 255, 0.5);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #00d2ff;
+            font-size: 18px;
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+        }
+
+        .profile-name-area h3 { font-size: 17px; display: flex; align-items: center; gap: 6px; color: #fff; }
+        .verified-badge { color: #00d2ff; font-size: 13px; }
+        .exec-tag { display: inline-block; background: rgba(0, 114, 255, 0.5); border: 1px solid rgba(0, 210, 255, 0.4); color: #fff; font-size: 9px; font-weight: bold; padding: 3px 8px; border-radius: 6px; margin-top: 3px; }
+        .expire-text { font-size: 11px; color: #8cb8e4; margin-bottom: 8px; }
+        .pill-tag-center { background: rgba(6, 18, 35, 0.3); border: 1px solid rgba(0, 210, 255, 0.3); text-align: center; padding: 8px; border-radius: 12px; font-size: 11px; color: #a0c4f1; margin-bottom: 8px; }
+        .owner-chat-link { text-align: center; font-size: 11px; color: #8cb8e4; }
+        .owner-chat-link a { color: #00d2ff; text-decoration: none; }
+
+        .status-glass-bar { display: flex; justify-content: space-around; align-items: center; font-size: 12px; color: #a0c4f1; }
+
+        .section-label { font-size: 12px; letter-spacing: 1px; color: #8cb8e4; margin-bottom: 8px; width: 100%; }
+        .quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 14px;
+            width: 100%;
+        }
+
+        /* TOMBOL QUICK ACTIONS */
+        .qa-card {
+            background: rgba(10, 28, 52, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 210, 255, 0.5);
+            border-radius: 16px;
+            padding: 16px 12px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .qa-icon { font-size: 22px; margin-bottom: 6px; color: #00d2ff; text-shadow: 0 0 10px rgba(0, 210, 255, 0.5); }
+        .qa-card span { font-size: 12px; color: #ffffff; font-weight: 600; display: block; }
+
+        .sub-header {
+            background: linear-gradient(90deg, rgba(0,114,255,0.2), rgba(0,210,255,0.1));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 210, 255, 0.4);
+            border-radius: 14px;
+            text-align: center;
+            padding: 12px;
+            margin-bottom: 14px;
+            color: #00d2ff;
+            font-weight: bold;
+            font-size: 14px;
+            width: 100%;
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+        }
+
+        .target-box label { font-size: 12px; color: #00d2ff; font-weight: bold; display: block; margin-bottom: 6px; }
+
+        .select-bug-title { font-size: 12px; color: #00d2ff; font-weight: bold; margin-bottom: 8px; }
+        .bug-cards-scroll { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; width: 100%; }
+        .bug-cards-scroll::-webkit-scrollbar { display: none; }
+
+        .bug-option-card {
+            min-width: 130px;
+            background: rgba(6, 18, 35, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            border-radius: 12px;
+            padding: 12px;
+            cursor: pointer;
+            position: relative;
+            text-align: center;
+        }
+        .bug-option-card.selected { border-color: #00d2ff; background: rgba(0, 114, 255, 0.3); box-shadow: 0 0 12px rgba(0, 210, 255, 0.4); }
+        .check-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: #00ff88;
+            color: #000;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            font-size: 9px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            display: none;
+        }
+        .bug-option-card.selected .check-badge {
+            display: flex;
+        }
+
+        /* --- SENDER (TABS & GLASS QR CONTAINER) --- */
+        .sender-mode-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .sender-tab-btn {
+            flex: 1;
+            background: rgba(10, 28, 52, 0.25);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            padding: 10px;
+            border-radius: 12px;
+            color: #8cb8e4;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: 0.2s;
+        }
+        .sender-tab-btn.active {
+            background: rgba(0, 114, 255, 0.35);
+            border-color: #00d2ff;
+            color: #00d2ff;
+            box-shadow: 0 0 12px rgba(0, 210, 255, 0.3);
+        }
+        .sender-panel {
+            display: none;
+        }
+        .sender-panel.active {
+            display: block;
+        }
+        .qr-card-container {
+            background: rgba(6, 18, 35, 0.25);
+            border: 1px solid rgba(0, 210, 255, 0.4);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            margin-bottom: 14px;
+        }
+
+        /* --- BOTTOM FLOATING NAVBAR --- */
+        .bottom-nav {
+            position: fixed !important;
+            bottom: 12px !important;
+            left: 12px !important;
+            right: 12px !important;
+            height: 70px;
+            background: rgba(8, 20, 38, 0.75);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 210, 255, 0.4);
+            border-radius: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            z-index: 999999 !important;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .nav-icon-btn {
+            background: transparent;
+            border: none;
+            color: #8cb8e4;
+            cursor: pointer;
+            padding: 8px 6px;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            flex: 1;
+        }
+        .nav-icon-btn span { font-size: 10px; font-weight: 600; white-space: nowrap; }
+        .nav-icon-btn .icon-symbol { font-size: 18px; }
+        .nav-icon-btn.active {
+            background: rgba(0, 114, 255, 0.3);
+            color: #00d2ff;
+            border: 1px solid rgba(0, 210, 255, 0.5);
+            box-shadow: 0 0 12px rgba(0, 114, 255, 0.4);
+        }
+
+        .prayer-bar {
+            background: rgba(4, 14, 28, 0.35);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0, 210, 255, 0.3);
+            padding: 10px 15px;
+            font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #8cb8e4;
+            margin-top: 20px;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HALAMAN LOGIN -->
+    <div id="login-page" class="page-section active">
+        <div class="glass-card">
+            <div class="card-header">
+                <h2>T4MZX0LI CR4SHER</h2>
+                <p>Login menggunakan akun terdaftar.</p>
+            </div>
+            <div class="form-group">
+                <label>USERNAME</label>
+                <input type="text" id="login-user" class="glass-input" placeholder="Username...">
+            </div>
+            <div class="form-group">
+                <label>PASSWORD</label>
+                <input type="password" id="login-pass" class="glass-input" placeholder="Password...">
+            </div>
+            <button class="glass-btn" onclick="handleLogin()">LOGIN</button>
+        </div>
+    </div>
+    
+    <!-- Musik Background -->
+    <audio id="bg-music" loop>
+        <source src="https://mp3tourl.com/audio/1787071157118-3c051724-325a-4ec4-bebd-9f038a6cff3e.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Tombol Control Musik -->
+    <div id="music-control" onclick="toggleMusic()" style="position:fixed; top:15px; right:15px; z-index:999999; cursor:pointer; color:#00d2ff; font-size: 20px;">
+        🎵
+    </div>
+
+    <!-- DASHBOARD UTAMA -->
+    <div id="dashboard-page" class="page-section">
+        <div class="dashboard-wrapper">
+
+            <!-- SIDEBAR MENU (DRAWER) -->
+            <div id="sidebar" class="sidebar-menu">
+                <div class="sidebar-header">
+                    <h3>TAMZ MENU</h3>
+                    <button class="sidebar-close" onclick="toggleSidebar()">✕</button>
+                </div>
+                <div class="sidebar-items">
+                    <div class="sidebar-item" onclick="toggleSidebar(); switchTab('profile', document.querySelectorAll('.bottom-nav .nav-icon-btn')[4])">
+                        <span>♛</span> <strong>Profil</strong>
+                    </div>
+                    <div class="sidebar-item" onclick="toggleSidebar(); switchTab('bug', document.querySelectorAll('.bottom-nav .nav-icon-btn')[1])">
+                        <span>⚠︎</span> <strong>Bug</strong>
+                    </div>
+                    <div class="sidebar-item" onclick="toggleSidebar(); switchTab('spamcode', document.querySelectorAll('.bottom-nav .nav-icon-btn')[3])">
+                        <span>✉</span> <strong>Spam Otp</strong>
+                    </div>
+                    <a href="https://t.me/thenzmodzz" target="_blank" class="sidebar-item">
+                        <span>🎧</span> <strong>Customer Service</strong>
+                    </a>
+                </div>
+            </div>
+
+            <!-- TAB 1: HOME -->
+            <div id="tab-home" class="dash-tab active">
+                <div class="dash-top">
+                    <div class="icon-btn" onclick="toggleSidebar()">≡</div>
+                    <div class="top-pill">ThenzModz</div>
+                    <div class="icon-btn" onclick="switchPage('login-page')" title="Logout">⌂</div>
+                </div>
+
+                <div class="enhanced-status-bar" id="sender-status-bar">
+                    <div class="status-left">
+                        <div class="pulse-dot" id="status-dot"></div>
+                        <div>
+                            <div class="status-title" id="status-main-text">Memuat Status...</div>
+                            <div class="status-sub">WhatsApp Session Engine</div>
+                        </div>
+                    </div>
+                    <div class="status-badge" id="status-badge-text">SYNC...</div>
+                </div>
+
+                <div class="profile-glass-box">
+                    <div class="profile-subtext">hi haters, i'm back</div>
+                    <div class="profile-main-row">
+                        <div class="shield-icon">🛡</div>
+                        <div class="profile-name-area">
+                            <h3 id="profile-name">elzx <span class="verified-badge">✓</span></h3>
+                            <span class="exec-tag" id="user-role-tag">MEMBER</span>
+                        </div>
+                    </div>
+                    <div class="expire-text">Expired: 9999-99-99</div>
+                    <div class="pill-tag-center">ThenzModz, Alergi Meninggi</div>
+                    <div class="owner-chat-link">
+                        Up Role? Chat Owner Kami <a href="#">@thenzmodzz</a>
+                    </div>
+                </div>
+
+                <!-- BANNER VIDEO -->
+                <div class="big-banner-card-video">
+                    <video autoplay muted loop playsinline>
+                        <source src="https://videotourl.com/videos/1787072174200-81b944e7-849e-47a7-900b-2e066b059eba.mp4" type="video/mp4">
+                    </video>
+                    <div class="banner-overlay-content">
+                        <h1>T4MZX0LI CR4SHER</h1>
+                        <h4>TamzXoli Project</h4>
+                        <p>hi, haters!</p>
+                    </div>
+                </div>
+
+                <div class="status-glass-bar">
+                    <span id="online-counter-text">Online : 0</span>
+                    <span>|</span>
+                    <span style="color: #00ff88;">Connected</span>
+                </div>
+
+                <div class="section-label">QUICK ACTIONS</div>
+                <div class="quick-actions-grid">
+                    <div class="qa-card" onclick="switchTab('bug', document.querySelectorAll('.bottom-nav .nav-icon-btn')[1])">
+                        <div class="qa-icon">⚠︎</div>
+                        <span>Manage Bug</span>
+                    </div>
+                    <div class="qa-card" onclick="switchTab('sender', document.querySelectorAll('.bottom-nav .nav-icon-btn')[2])">
+                        <div class="qa-icon">☆</div>
+                        <span>Add Sender</span>
+                    </div>
+                    <div class="qa-card" onclick="switchTab('spamcode', document.querySelectorAll('.bottom-nav .nav-icon-btn')[3])">
+                        <div class="qa-icon">✉</div>
+                        <span>Spam Code</span>
+                    </div>
+                    <div class="qa-card" onclick="switchTab('profile', document.querySelectorAll('.bottom-nav .nav-icon-btn')[4])">
+                        <div class="qa-icon">♛</div>
+                        <span>My Profile</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: MANAGE BUG -->
+            <div id="tab-bug" class="dash-tab">
+                <div class="sub-header">MANAGE BUG TOOLS</div>
+                <div class="profile-glass-box">
+                    <div class="profile-main-row" style="margin-bottom: 0;">
+                        <div class="shield-icon" style="width: 38px; height: 38px; font-size: 15px;">⚠︎</div>
+                        <div class="profile-name-area">
+                            <h3 id="bug-profile-name" style="font-size: 15px;">elzx</h3>
+                            <span class="exec-tag">EXEC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pilihan Mode Sender -->
+                <div class="target-box">
+                    <label>PILIH SENDER ENGINE</label>
+                    <select id="bug-sender-mode" class="glass-input" style="background: rgba(4, 14, 28, 0.6); color: #fff;">
+                        <option value="global">Sender Global (Sistem)</option>
+                        <option value="personal">Sender Pribadi (Khusus Akun Anda)</option>
+                    </select>
+                </div>
+
+                <div class="target-box">
+                    <label>TARGET NUMBER</label>
+                    <input type="text" id="bug-target" class="glass-input" placeholder="62xxxxxxxxxxx">
+                </div>
+                
+                <div class="select-bug-box">
+                    <div class="select-bug-title">SELECT BUG PAYLOAD</div>
+                    <div class="bug-cards-scroll">
+                        <div class="bug-option-card selected" onclick="selectBugCard(this)">
+                            <div class="check-badge">✓</div>
+                            <div style="font-size: 14px; margin-bottom: 3px; color:#00d2ff;">⚠︎</div>
+                            <div style="font-size: 11px; font-weight: bold;">GACOR FULL</div>
+                            <div style="font-size: 9px; color: #00ff88;">READY</div>
+                        </div>
+                        <div class="bug-option-card" onclick="selectBugCard(this)">
+                            <div class="check-badge">✓</div>
+                            <div style="font-size: 14px; margin-bottom: 3px; color:#00d2ff;">⚠︎</div>
+                            <div style="font-size: 11px; font-weight: bold;">MATRIX PARANOID</div>
+                            <div style="font-size: 9px; color: #00ff88;">READY</div>
+                        </div>
+                        <div class="bug-option-card" onclick="selectBugCard(this)">
+                            <div class="check-badge">✓</div>
+                            <div style="font-size: 14px; margin-bottom: 3px; color:#00d2ff;">⚠︎</div>
+                            <div style="font-size: 11px; font-weight: bold;">CALL FLOOD</div>
+                            <div style="font-size: 9px; color: #00ff88;">READY</div>
+                        </div>
+                        <div class="bug-option-card" onclick="selectBugCard(this)">
+                            <div class="check-badge">✓</div>
+                            <div style="font-size: 14px; margin-bottom: 3px; color:#00d2ff;">⚠︎</div>
+                            <div style="font-size: 11px; font-weight: bold;">FORCE CLOSE</div>
+                            <div style="font-size: 9px; color: #00ff88;">READY</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="glass-btn" onclick="executeRealBug()">EXECUTE PAYLOAD</button>
+
+                <div class="target-box" style="margin-top: 12px; margin-bottom: 12px;">
+                    <div style="font-size: 11px; color: #8cb8e4; margin-bottom: 5px;">LOG STATUS:</div>
+                    <div id="bug-log" style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; font-size: 10px; color: #00ff88; height: 50px; overflow-y: auto;">
+                        > Menunggu aksi...
+                    </div>
+                </div>
+
+                <div class="quick-actions-grid" style="grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <div class="qa-card" style="padding: 8px; border-radius: 12px;">
+                        <div class="qa-icon" style="font-size: 14px; margin-bottom: 2px;">⚠</div>
+                        <span style="font-size: 8px; opacity: 0.7; letter-spacing: 0.5px;">TOTAL BUG</span>
+                        <span style="color: #00d2ff; font-size: 12px; font-weight: bold;">128</span>
+                    </div>
+                    <div class="qa-card" style="padding: 8px; border-radius: 12px;">
+                        <div class="qa-icon" style="font-size: 14px; margin-bottom: 2px;">✉</div>
+                        <span style="font-size: 8px; opacity: 0.7; letter-spacing: 0.5px;">TOTAL SPAM</span>
+                        <span style="color: #00d2ff; font-size: 12px; font-weight: bold;">452</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: ADD SENDER -->
+            <div id="tab-sender" class="dash-tab">
+                <div class="sub-header" style="color: #00ff88;">WHATSAPP SENDER CONNECTION</div>
+                
+                <div style="font-size: 11px; color: #8cb8e4; text-align: center; margin-bottom: 12px;">
+                    Sender yang di-connect di sini akan otomatis terikat khusus ke akun: <strong id="sender-owner-label" style="color: #00d2ff;">elzx</strong>
+                </div>
+
+                <div class="sender-mode-tabs">
+                    <div class="sender-tab-btn active" onclick="switchSenderMode('qr', this)">📷 QR CODE</div>
+                    <div class="sender-tab-btn" onclick="switchSenderMode('pairing', this)">🔢 PAIRING CODE</div>
+                </div>
+
+                <div id="panel-qr" class="sender-panel active">
+                    <div class="qr-card-container">
+                        <div style="font-size: 12px; color: #00d2ff; font-weight: bold; margin-bottom: 12px;">SCAN QR DARI WHATSAPP</div>
+                        
+                        <div class="qr-placeholder" style="width: 160px; height: 160px; background: rgba(10, 28, 52, 0.4); border: 1px solid rgba(0, 210, 255, 0.4); backdrop-filter: blur(10px); margin: 0 auto 15px auto; border-radius: 14px; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 0 15px rgba(0,210,255,0.2);">
+                            <img id="qr-image" src="" alt="QR" style="width: 100%; height: 100%; object-fit: contain; display: none;" />
+                            <span id="qr-text" style="color: #a0c4f1; font-size: 11px; font-weight: bold; text-align: center; padding: 10px;">Tekan tombol di bawah untuk memuat QR</span>
+                        </div>
+
+                        <button class="glass-btn" style="padding: 12px; font-size: 13px; margin-top: 0;" onclick="fetchWhatsAppQR()">AMBIL QR CODE</button>
+                    </div>
+                </div>
+
+                <div id="panel-pairing" class="sender-panel">
+                    <div class="target-box" style="padding: 20px;">
+                        <label style="font-size: 13px; margin-bottom: 8px;">MASUKKAN NOMOR WHATSAPP</label>
+                        <p style="font-size: 11px; color: #8cb8e4; margin-bottom: 12px;">Pastikan diawali dengan kode negara (contoh: 628xxxxxxxxxx)</p>
+                        <input type="text" id="wa-phone" class="glass-input" placeholder="628xxxxxxxxxx" style="margin-bottom: 15px;">
+                        <button class="glass-btn" style="margin-top: 0; padding: 14px;" onclick="requestPairingCode()">DAPATKAN KODE PAIRING</button>
+                    </div>
+                </div>
+
+                <div class="quick-actions-grid" style="grid-template-columns: 1fr 1fr; margin-top: 10px; gap: 8px;">
+                    <div class="qa-card" style="padding: 8px; border-radius: 12px;">
+                        <div class="qa-icon" style="font-size: 14px; margin-bottom: 2px;">⚠</div>
+                        <span style="font-size: 8px; opacity: 0.7; letter-spacing: 0.5px;">TOTAL BUG</span>
+                        <span style="color: #00d2ff; font-size: 12px; font-weight: bold;">128</span>
+                    </div>
+                    <div class="qa-card" style="padding: 8px; border-radius: 12px;">
+                        <div class="qa-icon" style="font-size: 14px; margin-bottom: 2px;">✉</div>
+                        <span style="font-size: 8px; opacity: 0.7; letter-spacing: 0.5px;">TOTAL SPAM</span>
+                        <span style="color: #00d2ff; font-size: 12px; font-weight: bold;">452</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: SPAM CODE -->
+            <div id="tab-spamcode" class="dash-tab">
+                <div class="sub-header" style="color: #00d2ff;">SPAM CODE / VERIFICATION</div>
+                
+                <!-- Pilihan Mode Sender -->
+                <div class="target-box">
+                    <label>PILIH SENDER ENGINE</label>
+                    <select id="spam-sender-mode" class="glass-input" style="background: rgba(4, 14, 28, 0.6); color: #fff;">
+                        <option value="global">Sender Global (Sistem)</option>
+                        <option value="personal">Sender Pribadi (Khusus Akun Anda)</option>
+                    </select>
+                </div>
+
+                <div class="target-box">
+                    <label>TARGET PHONE NUMBER</label>
+                    <input type="text" id="spam-target" class="glass-input" placeholder="628xxxxxxxxxx">
+                </div>
+                <div class="target-box">
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label>COUNT (JUMLAH KIRIM)</label>
+                        <input type="number" id="spam-count" class="glass-input" value="10" min="1" max="100">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label>DELAY (MS)</label>
+                        <input type="number" id="spam-delay" class="glass-input" value="1000" min="0" max="10000">
+                    </div>
+                </div>
+                <button class="glass-btn" onclick="startRealSpam()">START SPAM ENGINE</button>
+                <div class="target-box" style="margin-top: 12px; margin-bottom: 0;">
+                    <div style="font-size: 11px; color: #8cb8e4; margin-bottom: 5px;">LOG STATUS:</div>
+                    <div id="spam-log" style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; font-size: 10px; color: #00ff88; height: 50px; overflow-y: auto;">
+                        > Menunggu aksi...
+                    </div>
+                </div>
+
+                <div class="quick-actions-grid" style="grid-template-columns: 1fr 1fr; margin-top: 10px; gap: 8px;">
+                    <div class="qa-card" style="padding: 8px; border-radius: 12px;">
+                        <div class="qa-icon" style="font-size: 14px; margin-bottom: 2px;">⚠</div>
+                        <span style="font-size: 8px; opacity: 0.7; letter-spacing: 0.5px;">TOTAL BUG</span>
+                        <span style="color: #00d2ff; font-size: 12px; font-weight: bold;">128</span>
+                    </div>
+                    <div class="qa-card" style="padding: 8px; border-radius: 12px;">
+                        <div class="qa-icon" style="font-size: 14px; margin-bottom: 2px;">✉</div>
+                        <span style="font-size: 8px; opacity: 0.7; letter-spacing: 0.5px;">TOTAL SPAM</span>
+                        <span style="color: #00d2ff; font-size: 12px; font-weight: bold;">452</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: PROFILE -->
+            <div id="tab-profile" class="dash-tab">
+                <div class="profile-glass-box" style="text-align: center; padding: 20px;">
+                    <div style="width: 60px; height: 60px; background: rgba(0, 114, 255, 0.2); border: 1px solid rgba(0, 210, 255, 0.5); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 0 auto 10px auto; font-size: 24px; color: #00d2ff; box-shadow: 0 0 15px rgba(0,210,255,0.3);">
+                        ♛
+                    </div>
+                    <h3 id="display-username" style="font-size: 18px; color: #fff; margin-bottom: 4px; letter-spacing: 1px;">owner1</h3>
+                    <span class="exec-tag" style="background: rgba(0, 210, 255, 0.3); border-color: #00d2ff; color: #00d2ff; padding: 4px 12px; font-size: 10px;">ACTIVE SESSION</span>
+                </div>
+
+                <div class="sub-header" style="color: #ff416c; background: linear-gradient(90deg, rgba(255,65,108,0.15), rgba(255,75,43,0.05)); border-color: rgba(255,65,108,0.4);">
+                    SECURITY & PASSWORD
+                </div>
+                <div class="profile-glass-box">
+                    <div class="form-group">
+                        <label>CURRENT PASSWORD</label>
+                        <input type="password" id="current-pass" class="glass-input" placeholder="Password lama...">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 12px;">
+                        <label>NEW PASSWORD</label>
+                        <input type="password" id="new-password" class="glass-input" placeholder="Password baru...">
+                    </div>
+                    <button class="glass-btn" style="background: linear-gradient(90deg, rgba(255, 65, 108, 0.35), rgba(255, 75, 43, 0.35)); margin-top: 0;" onclick="handleChangePassword()">UPDATE PASSWORD</button>
+                </div>
+
+                <div id="create-account-section">
+                    <div class="sub-header" style="background: linear-gradient(90deg, rgba(0,210,255,0.2), rgba(0,114,255,0.1)); border-color: rgba(0,210,255,0.4); color: #00d2ff;">
+                        CREATE NEW ACCOUNT
+                    </div>
+                    <div class="profile-glass-box" style="margin-bottom: 0;">
+                        <div class="form-group">
+                            <label>NEW USERNAME</label>
+                            <input type="text" id="new-acc-user" class="glass-input" placeholder="Username baru...">
+                        </div>
+                        <div class="form-group">
+                            <label>NEW PASSWORD</label>
+                            <input type="password" id="new-acc-pass" class="glass-input" placeholder="Password baru...">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 12px;">
+                            <label>SELECT ROLE</label>
+                            <select id="new-acc-role" class="glass-input" style="background: rgba(4, 14, 28, 0.6); color: #fff;">
+                                <option value="member">Member</option>
+                                <option value="reseller">Reseller</option>
+                                <option value="owner">Owner</option>
+                            </select>
+                        </div>
+                        <button class="glass-btn" style="margin-top: 0;" onclick="createAccountByAdmin()">CREATE ACCOUNT</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WIDGET GLOBAL JADWAL SHOLAT DI BAWAH -->
+            <div class="prayer-bar" id="live-clock-bar">
+                <div style="display: flex; flex-direction: column; width: 100%;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                        <span id="prayer-name" style="color: #00d2ff; font-weight: bold;">MEMUAT...</span>
+                        <span id="prayer-time-display" style="color: #00ff88; font-weight: bold;">--:--</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 4px;">
+                        <span id="current-date">Memuat Tanggal...</span>
+                        <span id="current-time" style="color: #fff; font-weight: bold;">00:00:00</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Floating Navbar -->
+        <div class="bottom-nav">
+            <button class="nav-icon-btn" onclick="switchTab('home', this)">
+                <span class="icon-symbol">⌂</span> <span>Home</span>
+            </button>
+            <button class="nav-icon-btn" onclick="switchTab('bug', this)">
+                <span class="icon-symbol">⚠︎</span> <span>Crasher</span>
+            </button>
+            <button class="nav-icon-btn" onclick="switchTab('sender', this)">
+                <span class="icon-symbol">☆</span> <span>Sender</span>
+            </button>
+            <button class="nav-icon-btn" onclick="switchTab('spamcode', this)">
+                <span class="icon-symbol">✉</span> <span>Spam Otp</span>
+            </button>
+            <button class="nav-icon-btn active" onclick="switchTab('profile', this)">
+                <span class="icon-symbol">♛</span> <span>Profil</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentLoggedInUser = "elzx";
+        let currentUserRole = "member";
+        const backendURL = "http://zyrodevvstore.surnxuesk.biz.id:10031";
+
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+        
+        function updateLiveClock() {
+            const now = new Date();
+            
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString('id-ID', options);
+            
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const timeString = `${hours}:${minutes}:${seconds}`;
+            
+            const dateEl = document.getElementById('current-date');
+            const timeEl = document.getElementById('current-time');
+            
+            if (dateEl && timeEl) {
+                dateEl.innerText = dateString;
+                timeEl.innerText = timeString;
+            }
+
+            const jadwal = [
+                { name: "SUBUH", time: "04:30" },
+                { name: "DZUHUR", time: "11:50" },
+                { name: "ASHAR", time: "15:10" },
+                { name: "MAGHRIB", time: "17:55" },
+                { name: "ISYA", time: "19:05" }
+            ];
+
+            let nextPrayer = jadwal[0];
+            for (let i = 0; i < jadwal.length; i++) {
+                let [h, m] = jadwal[i].time.split(':');
+                let pTime = new Date();
+                pTime.setHours(h, m, 0);
+                if (now < pTime) {
+                    nextPrayer = jadwal[i];
+                    break;
+                }
+            }
+            
+            const prayerNameEl = document.getElementById('prayer-name');
+            const prayerTimeEl = document.getElementById('prayer-time-display');
+            if (prayerNameEl && prayerTimeEl) {
+                prayerNameEl.innerText = nextPrayer.name;
+                prayerTimeEl.innerText = nextPrayer.time;
+            }
+        }
+
+        setInterval(updateLiveClock, 1000);
+        window.onload = function() {
+            updateLiveClock();
+        };
+        
+        function toggleMusic() {
+            const music = document.getElementById('bg-music');
+            const control = document.getElementById('music-control');
+            
+            if (music.paused) {
+                music.play();
+                control.innerHTML = "🔊";
+            } else {
+                music.pause();
+                control.innerHTML = "🔇";
+            }
+        }
+
+        document.addEventListener('click', function musicAutoPlay() {
+            const music = document.getElementById('bg-music');
+            music.play();
+            document.removeEventListener('click', musicAutoPlay);
+        }, { once: true });
+
+        function switchSenderMode(mode, btnElement) {
+            document.querySelectorAll('.sender-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            document.querySelectorAll('.sender-tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            if (mode === 'qr') {
+                document.getElementById('panel-qr').classList.add('active');
+            } else {
+                document.getElementById('panel-pairing').classList.add('active');
+            }
+            btnElement.classList.add('active');
+        }
+
+        async function updateDashboardStats() {
+            if (!currentLoggedInUser) return;
+            try {
+                const res = await fetch(`${backendURL}/api/stats?username=${currentLoggedInUser}`);
+                const data = await res.json();
+                
+                const mainText = document.getElementById('status-main-text');
+                const badgeText = document.getElementById('status-badge-text');
+                const dot = document.getElementById('status-dot');
+                const statusBar = document.getElementById('sender-status-bar');
+                const onlineCounter = document.getElementById('online-counter-text');
+                
+                if (onlineCounter) {
+                    onlineCounter.innerText = `Online : ${data.activeSenders || 0}`;
+                }
+
+                if (data.activeSenders > 0) {
+                    mainText.innerText = `${data.activeSenders} Sender Active`;
+                    badgeText.innerText = "ONLINE";
+                    dot.style.backgroundColor = "#00ff88";
+                    dot.style.boxShadow = "0 0 10px #00ff88, 0 0 20px #00ff88";
+                    statusBar.style.borderColor = "rgba(0, 255, 136, 0.5)";
+                } else {
+                    mainText.innerText = "No Active Sender";
+                    badgeText.innerText = "OFFLINE";
+                    badgeText.style.color = "#ff416c";
+                    badgeText.style.borderColor = "rgba(255, 65, 108, 0.4)";
+                    badgeText.style.background = "rgba(255, 65, 108, 0.15)";
+                    dot.style.backgroundColor = "#ff416c";
+                    dot.style.boxShadow = "0 0 10px #ff416c, 0 0 20px #ff416c";
+                    statusBar.style.borderColor = "rgba(255, 65, 108, 0.5)";
+                }
+            } catch (err) {
+                console.error("Gagal update stats");
+            }
+        }
+                async function fetchWhatsAppQR() {
+            if (!currentLoggedInUser) {
+                alert('Silakan login terlebih dahulu!');
+                return;
+            }
+
+            const qrImg = document.getElementById('qr-image');
+            const qrText = document.getElementById('qr-text');
+            qrText.style.display = "block";
+            qrText.innerText = "Meminta QR Code baru untuk akun " + currentLoggedInUser + "...";
+            qrImg.style.display = "none";
+
+            try {
+                // Meminta backend membuatkan / mengambil QR khusus untuk username ini
+                const res = await fetch(`${backendURL}/api/wa-qr`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: currentLoggedInUser })
+                });
+                const data = await res.json();
+
+                if (data.status === "Connected") {
+                    qrText.innerText = "STATUS: CONNECTED ✓";
+                    qrText.style.color = "#00ff88";
+                    qrImg.style.display = "none";
+                } else if (data.qr) {
+                    qrImg.src = data.qr;
+                    qrImg.style.display = "block";
+                    qrText.style.display = "none";
+                } else {
+                    qrText.innerText = data.message || "Gagal memuat QR Code. Coba lagi.";
+                    qrText.style.color = "#ff416c";
+                    qrImg.style.display = "none";
+                }
+            } catch (err) {
+                console.error("Gagal mengambil QR WA:", err);
+                qrText.innerText = "Gagal terhubung ke server backend.";
+                qrText.style.color = "#ff416c";
+            }
+        }
+
+        function switchTab(tabName, btnElement) {
+            document.querySelectorAll('.dash-tab').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            if(tabName === 'bug') {
+                document.getElementById('tab-bug').classList.add('active');
+            } else if(tabName === 'sender') {
+                document.getElementById('tab-sender').classList.add('active');
+                checkAccountSenderStatus();
+            } else if(tabName === 'spamcode') {
+                document.getElementById('tab-spamcode').classList.add('active');
+            } else if(tabName === 'profile') {
+                document.getElementById('tab-profile').classList.add('active');
+            } else {
+                document.getElementById('tab-home').classList.add('active');
+                updateDashboardStats();
+            }
+
+            if(btnElement) {
+                document.querySelectorAll('.bottom-nav .nav-icon-btn').forEach(el => {
+                    el.classList.remove('active');
+                });
+                btnElement.classList.add('active');
+            }
+        }
+
+        function selectBugCard(element) {
+            document.querySelectorAll('.bug-option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        async function handleLogin() {
+            const usernameInput = document.getElementById('login-user');
+            const passwordInput = document.getElementById('login-pass');
+            
+            const username = usernameInput ? usernameInput.value.trim() : "";
+            const password = passwordInput ? passwordInput.value.trim() : "";
+            
+            if(!username || !password) {
+                alert('Username dan password harus diisi!');
+                return;
+            }
+
+            try {
+                const res = await fetch(`${backendURL}/api/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const result = await res.json();
+                
+                if(result.success) {
+                    currentLoggedInUser = username;
+                    currentUserRole = (result.role || 'member').toLowerCase();
+
+                    document.getElementById('profile-name').innerHTML = username + ' <span class="verified-badge">✓</span>';
+                    document.getElementById('bug-profile-name').innerText = username;
+                    document.getElementById('display-username').innerText = username;
+                    document.getElementById('user-role-tag').innerText = currentUserRole.toUpperCase();
+                    
+                    const senderLabel = document.getElementById('sender-owner-label');
+                    if (senderLabel) {
+                        senderLabel.innerText = username;
+                    }
+                    
+                    const createAccSection = document.getElementById('create-account-section');
+                    if (createAccSection) {
+                        if (currentUserRole === 'member') {
+                            createAccSection.style.display = 'none';
+                        } else {
+                            createAccSection.style.display = 'block';
+                        }
+                    }
+
+                    switchPage('dashboard-page');
+                    updateDashboardStats();
+                } else {
+                    alert(result.message);
+                }
+            } catch (err) {
+                alert('Gagal terhubung ke server backend!');
+            }
+        }
+
+        async function createAccountByAdmin() {
+            const newUsername = document.getElementById('new-acc-user').value.trim();
+            const newPassword = document.getElementById('new-acc-pass').value.trim();
+            const targetRole = document.getElementById('new-acc-role').value;
+
+            if (!newUsername || !newPassword) {
+                alert('Username dan password baru harus diisi!');
+                return;
+            }
+
+            try {
+                const res = await fetch(`${backendURL}/api/create-account`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        creatorUsername: currentLoggedInUser,
+                        newUsername,
+                        newPassword,
+                        targetRole
+                    })
+                });
+                const result = await res.json();
+                alert(result.message);
+                
+                if (result.success) {
+                    document.getElementById('new-acc-user').value = '';
+                    document.getElementById('new-acc-pass').value = '';
+                }
+            } catch (err) {
+                alert('Gagal terhubung ke server backend!');
+            }
+        }
+
+        async function handleChangePassword() {
+            const currentPassword = document.getElementById('current-pass').value;
+            const newPassword = document.getElementById('new-password').value;
+            if(!currentPassword || !newPassword) {
+                alert('Semua kolom password harus diisi!');
+                return;
+            }
+
+            try {
+                const res = await fetch(`${backendURL}/api/change-password`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: currentLoggedInUser, currentPassword, newPassword })
+                });
+                const result = await res.json();
+                alert(result.message);
+                if(result.success) {
+                    document.getElementById('current-pass').value = '';
+                    document.getElementById('new-password').value = '';
+                }
+            } catch (err) {
+                alert('Gagal terhubung ke server backend!');
+            }
+        }
+
+        async function startRealSpam() {
+            const target = document.getElementById('spam-target').value;
+            const count = document.getElementById('spam-count').value;
+            const delay = document.getElementById('spam-delay').value;
+            const senderMode = document.getElementById('spam-sender-mode').value;
+            const logBox = document.getElementById('spam-log');
+
+            if(!target) {
+                alert('Masukkan nomor target terlebih dahulu!');
+                return;
+            }
+
+            if(logBox) {
+                logBox.innerHTML = `> Memproses spam ke ${target} via ${senderMode.toUpperCase()} sender...`;
+            }
+
+            try {
+                const res = await fetch(`${backendURL}/api/start-spam`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ target, count, delay, senderMode, username: currentLoggedInUser })
+                });
+                const result = await res.json();
+                
+                if(logBox) {
+                    logBox.innerHTML += `<br><span style="color: #00ff88;">> ${result.message || 'Spam berhasil dijalankan!'}</span>`;
+                }
+                alert(result.message);
+            } catch (err) {
+                if(logBox) {
+                    logBox.innerHTML += `<br><span style="color: #ff416c;">> Gagal terhubung ke backend!</span>`;
+                }
+                alert('Gagal terhubung ke server backend!');
+            }
+        }
+
+        async function executeRealBug() {
+            const target = document.getElementById('bug-target').value;
+            const senderMode = document.getElementById('bug-sender-mode').value;
+            const logBox = document.getElementById('bug-log');
+
+            if(!target) {
+                alert('Masukkan nomor target bug terlebih dahulu!');
+                return;
+            }
+
+            const selectedCard = document.querySelector('.bug-option-card.selected');
+            const bugType = selectedCard ? selectedCard.querySelector('div:nth-child(3)').innerText : 'GACOR FULL';
+
+            if(logBox) {
+                logBox.innerHTML = `> Mengirim payload ${bugType} via ${senderMode.toUpperCase()} sender ke ${target}...`;
+            }
+
+            try {
+                const res = await fetch(`${backendURL}/api/execute-bug`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ target, bugType, senderMode, username: currentLoggedInUser })
+                });
+                const result = await res.json();
+                
+                if(logBox) {
+                    logBox.innerHTML += `<br><span style="color: #00ff88;">> ${result.message || 'Payload berhasil dieksekusi!'}</span>`;
+                }
+                alert(result.message);
+            } catch (err) {
+                if(logBox) {
+                    logBox.innerHTML += `<br><span style="color: #ff416c;">> Gagal terhubung ke backend!</span>`;
+                }
+                alert('Gagal terhubung ke server backend!');
+            }
+        }
+
+        async function checkAccountSenderStatus() {
+            if (!currentLoggedInUser) return;
+            const qrImg = document.getElementById('qr-image');
+            const qrText = document.getElementById('qr-text');
+            
+            qrText.style.display = "block";
+            qrText.innerText = "Memeriksa status sender akun...";
+            qrImg.style.display = "none";
+
+            try {
+                const res = await fetch(`${backendURL}/api/wa-status?username=${currentLoggedInUser}`);
+                const data = await res.json();
+
+                if (data.status === "Connected" && data.owner === currentLoggedInUser) {
+                    qrText.innerText = "STATUS: CONNECTED ✓";
+                    qrText.style.color = "#00ff88";
+                    qrImg.style.display = "none";
+                } else {
+                    qrText.innerText = "Belum ada sender terhubung. Silakan ambil QR Code.";
+                    qrText.style.color = "#a0c4f1";
+                    qrImg.style.display = "none";
+                }
+            } catch (err) {
+                qrText.innerText = "Gagal memuat status sender.";
+            }
+        }
+
+        async function fetchWhatsAppQR() {
+            if (!currentLoggedInUser) {
+                alert('Silakan login terlebih dahulu!');
+                return;
+            }
+
+            const qrImg = document.getElementById('qr-image');
+            const qrText = document.getElementById('qr-text');
+            qrText.style.display = "block";
+            qrText.innerText = "Memuat QR Code...";
+
+            try {
+                const res = await fetch(`${backendURL}/api/wa-status?username=${currentLoggedInUser}`);
+                const data = await res.json();
+
+                if (data.status === "Connected" && data.owner === currentLoggedInUser) {
+                    qrText.innerText = "STATUS: CONNECTED ✓";
+                    qrText.style.color = "#00ff88";
+                    qrImg.style.display = "none";
+                } else if (data.qr && data.owner === currentLoggedInUser) {
+                    qrImg.src = data.qr;
+                    qrImg.style.display = "block";
+                    qrText.style.display = "none";
+                } else {
+                    qrText.innerText = "Belum ada sender terhubung untuk akun ini. Silakan scan QR.";
+                    qrText.style.color = "#a0c4f1";
+                    qrImg.style.display = "none";
+                }
+            } catch (err) {
+                console.error("Gagal mengambil status WA:", err);
+                alert("Gagal terhubung ke backend server lokal.");
+            }
+        }
+
+        async function requestPairingCode() {
+            const phoneNumber = document.getElementById('wa-phone').value.trim();
+            if (!phoneNumber) {
+                alert('Masukkan nomor WhatsApp terlebih dahulu!');
+                return;
+            }
+
+            alert('Meminta kode pairing dari server, mohon tunggu...');
+
+            try {
+                const res = await fetch(`${backendURL}/api/wa-pairing`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phoneNumber, username: currentLoggedInUser })
+                });
+                const result = await res.json();
+                
+                if (result.success) {
+                    alert(`KODE PAIRING ANDA: ${result.pairingCode}\n\nMasukkan kode ini di perangkat WhatsApp Anda.`);
+                } else {
+                    alert(result.message);
+                }
+            } catch (err) {
+                alert('Gagal menghubungi server untuk pairing code.');
+            }
+        }
+    </script>
+</body>
+</html>
